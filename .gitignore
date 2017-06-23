@@ -1,6 +1,7 @@
-dat/
+.gradle/
+.nb-gradle/
 .settings
-.gradle
-.nb-gradle
+dat/
 ideas/
 .project
+.classpath
