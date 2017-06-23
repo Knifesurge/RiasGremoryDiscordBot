@@ -1,0 +1,6 @@
+dat/
+.settings
+.gradle
+.nb-gradle
+ideas/
+.project
