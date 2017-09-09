@@ -2,7 +2,7 @@ package com.knifesurge.riasgremory.commands.games;
 
 public enum GameCategory {
 
-	GUESS("Guessing"), CARD("Card"), NONE("None");
+	GUESS("Guessing"), CARD("Card"), NONE("None"), BOARD("Board");
 	
 	String name;
 	

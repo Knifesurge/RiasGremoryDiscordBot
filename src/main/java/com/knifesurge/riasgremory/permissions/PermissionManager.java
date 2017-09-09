@@ -26,7 +26,7 @@ public class PermissionManager {
 		try
 		{
 			File permFolder = new File(datFolder+g.getId());	//Permission folder for the Guild g
-			File permFile = new File(datFolder+g.getId()+"\\perms.pm");	// Actual Permission File for Guild g
+			File permFile = new File(permFolder, "\\perms.pm");	// Actual Permission File for Guild g
 			boolean creation = permFolder.mkdirs();	//Create any missing directories
 			if(!permFile.exists())	//Check to make sure that the file doesn't already exist
 			{

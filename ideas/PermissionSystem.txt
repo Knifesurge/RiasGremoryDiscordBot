@@ -1,5 +1,0 @@
-Each Guild has a separate Permission System
-	- File for each Guild
-
-Map the Permission Level to each Member in a Guild
-	- Defaults to AVERAGE for newcomers

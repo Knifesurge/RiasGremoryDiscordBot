@@ -14,12 +14,12 @@ public class GuessingGame extends Game{
 		super(n, gc);
 	}
 	
-	public static boolean check(MessageReceivedEvent e, String s)
+	public static boolean check(MessageReceivedEvent e, int i)
 	{
 		answer = (int)((10 * Math.random()) + 1);
 		System.out.println(">> Number is " + answer);
 		e.getChannel().sendMessage("Number is "+answer).queue();
-		if(Integer.parseInt(s) == answer)
+		if(i == answer)
 			return true;
 		else
 			return false;

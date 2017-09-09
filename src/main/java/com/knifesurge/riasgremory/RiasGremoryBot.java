@@ -1,24 +1,33 @@
 package com.knifesurge.riasgremory;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.knifesurge.riasgremory.music.RiasAudioListener;
 
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.managers.Presence;
 
 public class RiasGremoryBot {
 
-	public static JDA jda;
-	
+	private static JDA jda;
+	private static String version;
 	private static String BOT_TOKEN;
+	private static String lastImplemented;
+	private List<File> files = new ArrayList<File>();
 	
 	public static void main(String[] args)
 	{
 		try
 		{
 			BOT_TOKEN = args[0];
+			version = "1.3";
+			lastImplemented = "do ;>guilds!\nCurrency is now (somewhat) implemented! Check ;>help!";
 			jda = new JDABuilder(AccountType.BOT).setToken(BOT_TOKEN).buildBlocking();
 			jda.addEventListener(new RiasGremoryListener());
 			jda.addEventListener(new RiasAudioListener());
@@ -34,6 +43,31 @@ public class RiasGremoryBot {
 				}
 			);*/
 		} catch (Exception e) {e.printStackTrace();}
+	}
+	
+	public static List<Guild> getGuilds()
+	{
+		return jda.getGuilds();
+	}
+	
+	public static int getNumGuilds()
+	{
+		return jda.getGuilds().size();
+	}
+	
+	public static String getVersion()
+	{
+		return version;
+	}
+	
+	public static String getLastImplemented()
+	{
+		return lastImplemented;
+	}
+	
+	public static JDA getJDA()
+	{
+		return jda;
 	}
 	
 }

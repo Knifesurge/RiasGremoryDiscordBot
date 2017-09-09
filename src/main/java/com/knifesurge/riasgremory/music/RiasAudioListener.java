@@ -3,7 +3,6 @@ package com.knifesurge.riasgremory.music;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.knifesurge.riasgremory.RiasGremoryListener;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -13,6 +12,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -48,7 +48,7 @@ public class RiasAudioListener extends ListenerAdapter{
 		return musicManager;
 	}
 	
-	public static void loadAndPlay(final TextChannel channel, final String trackURL)
+	public static void loadAndPlay(final TextChannel channel, final String trackURL, Member member)
 	{
 		RiasAudioManager musicManager = getGuildAudioPlayer(channel.getGuild());
 		
@@ -66,7 +66,7 @@ public class RiasAudioListener extends ListenerAdapter{
 						musicManagers.remove(guildID);
 					}
 					
-					play(channel.getGuild(), musicManager, track);
+					play(channel.getGuild(), musicManager, track, member);
 				}
 				
 				@Override
@@ -75,12 +75,12 @@ public class RiasAudioListener extends ListenerAdapter{
 
 			        if (firstTrack == null) {
 			          for(AudioTrack track : playlist.getTracks())
-				          play(channel.getGuild(), musicManager, track);
+				          play(channel.getGuild(), musicManager, track, member);
 			        }
 
 			        channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
 
-			        play(channel.getGuild(), musicManager, firstTrack);
+			        play(channel.getGuild(), musicManager, firstTrack, member);
 			      }
 
 			      @Override
@@ -96,9 +96,9 @@ public class RiasAudioListener extends ListenerAdapter{
 		);
 	}
 	
-	public static void play(Guild guild, RiasAudioManager musicManager, AudioTrack track)
+	public static void play(Guild guild, RiasAudioManager musicManager, AudioTrack track, Member member)
 	{
-		connectToVoiceChannel(guild.getAudioManager());
+		connectToMembersChannel(guild.getAudioManager(), member);
 		
 		if(musicManager.player.isPaused())
 			musicManager.player.setPaused(false);
@@ -152,6 +152,22 @@ public class RiasAudioListener extends ListenerAdapter{
 				break;
 			}
 		}
+	}
+	
+	private static void connectToMembersChannel(AudioManager audioManager, Member member)
+	{
+		if(!audioManager.isConnected() && !audioManager.isAttemptingToConnect())
+		{
+			for(VoiceChannel vc : audioManager.getGuild().getVoiceChannels())
+			{
+				if(vc.getMembers().contains(member))
+				{
+					audioManager.openAudioConnection(vc);
+					return;
+				}
+			}
+		}
+		connectToVoiceChannel(audioManager);
 	}
 	
 }
