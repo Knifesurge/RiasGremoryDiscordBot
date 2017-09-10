@@ -1,7 +1,8 @@
-.gradle/
-.nb-gradle/
-.settings
+*.gradle/
+*.nb-gradle/
+*.settings
 dat/
 ideas/
-.project
-.classpath
+*.project
+*.classpath
+*.sh
