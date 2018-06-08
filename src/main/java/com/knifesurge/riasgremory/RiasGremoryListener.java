@@ -272,7 +272,7 @@ public class RiasGremoryListener implements EventListener
 		guilds = RiasGremoryBot.getGuilds();
 		for(Guild g : guilds)
 		{
-			MessageChannel c = g.getPublicChannel();
+			MessageChannel c = g.getDefaultChannel();
 			sendMessage(c, message);
 		}
 	}
@@ -327,7 +327,7 @@ public class RiasGremoryListener implements EventListener
 				currentGuild = e.getGuild();
 				if(!prevMsgID.equals(currMsgID))	//If they aren't the same message
 				{
-					String rawMsg = e.getMessage().getRawContent();
+					String rawMsg = e.getMessage().getContentRaw();
 					System.out.println(currentGuild.getName() + ":" + e.getAuthor().getName() + ": " + rawMsg);
 					if(rawMsg.startsWith(PRECURSOR+"profile"))
 					{

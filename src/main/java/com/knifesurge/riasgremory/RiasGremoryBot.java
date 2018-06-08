@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Game.GameType;
 import net.dv8tion.jda.core.managers.Presence;
 
 public class RiasGremoryBot {
@@ -32,7 +33,7 @@ public class RiasGremoryBot {
 			jda.addEventListener(new RiasGremoryListener());
 			jda.addEventListener(new RiasAudioListener());
 			Presence game = jda.getPresence();
-			game.setGame(Game.of(";>help"));
+			game.setGame(Game.of(GameType.DEFAULT, ";>help"));
 /*			javax.swing.SwingUtilities.invokeLater(
 				new Runnable()
 				{
