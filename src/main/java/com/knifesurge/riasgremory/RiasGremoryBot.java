@@ -20,6 +20,7 @@ public class RiasGremoryBot {
 	private static String version;
 	private static String BOT_TOKEN;
 	private static String lastImplemented;
+	private static long startTime;
 	private List<File> files = new ArrayList<File>();
 	
 	public static void main(String[] args)
@@ -43,7 +44,13 @@ public class RiasGremoryBot {
 					}
 				}
 			);*/
+			startTime = System.nanoTime();
 		} catch (Exception e) {e.printStackTrace();}
+	}
+	
+	public static long getStartTime()
+	{
+		return startTime;
 	}
 	
 	public static List<Guild> getGuilds()

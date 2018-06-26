@@ -63,6 +63,10 @@ public class RiasGremoryListener implements EventListener
 	private static String prevMsgID = "";
 	private static String currMsgID;
 	
+	private int minutes;
+	private int hours;
+	private int days;
+	
 	private ObjectOutputStream objOutput;
 	private FileOutputStream fileOutput;
 	private ObjectInputStream objInput;
@@ -74,6 +78,10 @@ public class RiasGremoryListener implements EventListener
 	
 	public RiasGremoryListener()
 	{
+		minutes = 0;
+		hours = 0;
+		days = 0;
+		
 		userProfiles = (Map<Long, Profile>) load("currency\\profiles.dat");
 		playerCharacters = new HashMap<Long, RPCharacter>();
 		
@@ -424,6 +432,37 @@ public class RiasGremoryListener implements EventListener
 							sendMessage(e, "Maybe you will get it next time!");
 						currentGame = null;
 						isGame = false;
+					} else if(rawMsg.equals(PRECURSOR+"uptime"))
+					{
+						long runningTime;
+						long currentTime = System.nanoTime();
+						long startTime = RiasGremoryBot.getStartTime();
+						int seconds;
+						runningTime = currentTime - startTime;
+						seconds = (int) (runningTime / 1_000_000_000D);
+//						minutes =  (int) (runningTime / (60 * 1_000_000_000D) % 60);
+//						hours = (int) (runningTime / (60 * 60 * 1_000_000_000D) % 60);
+//						days = (int) (runningTime / (24 * 60 * 60 * 1_000_000_000D) % 24);
+
+						System.out.println("RUNNING TIME: " + runningTime + "\nSECONDS: " + seconds + "\nMINUTES: " + minutes + "\nHOURS: " + hours + "\nDAYS: " + days);
+						if((seconds - (minutes * 60)) >= 60)
+						{
+							minutes++;
+						}
+						if((minutes - (hours * 60)) >= 60)
+						{
+							hours++;
+						}
+						if((hours - (days * 24)) >= 24)
+						{
+							days++;
+						}
+						
+						seconds -= minutes * 60;
+						minutes -= hours * 60;
+						hours -= days * 24;
+						
+						sendMessage(e, "Current uptime: " + days + " days, " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds.");
 					} else if(rawMsg.startsWith(PRECURSOR+"play https://www.youtube.com/watch"))	//Playing some Youtube *VIDEO* URL
 					{
 						String track = rawMsg.substring(39);	//Only get the Video ID
